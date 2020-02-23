@@ -10,6 +10,7 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   entry: {
+    vue: 'vue',
     app: './src/index.js',
   },
   output: {
@@ -28,6 +29,13 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
       },
       {
         test: /\.js$/,
