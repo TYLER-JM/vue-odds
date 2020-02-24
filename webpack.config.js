@@ -10,7 +10,7 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   entry: {
-    vue: 'vue',
+    // vue: 'vue',
     app: './src/index.js',
   },
   output: {
@@ -20,7 +20,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Development',
+      template: './src/index.html',
     }),
     new VueLoaderPlugin()
   ],
@@ -49,7 +49,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      vue$: 'vue/dist/vue.esm/js',
+      vue$: 'vue/dist/vue.esm.js',
     }
   }
 }
