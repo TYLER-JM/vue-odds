@@ -1,6 +1,7 @@
 import Vue from 'vue';
-import MainContent from './views/main-content';
+import App from './App.vue';
 
-let MainComponent = Vue.extend(MainContent);
-
-new MainComponent().$mount("#mainContent");
+new Vue({
+  el: '#app',
+  render: h => h(App),
+})
