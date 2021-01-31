@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="container">
     {{ message }}
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style>
-#app {
+#container {
   font-size: 18px;
   font-family: 'Roboto', sans-serif;
   color: blue;
