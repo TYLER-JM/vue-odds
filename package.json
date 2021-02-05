@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "googleapis": "^39.2.0",
     "vue": "^2.6.11"
   }
 }
