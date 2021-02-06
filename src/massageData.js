@@ -6,58 +6,89 @@ const { google } = require('googleapis');
 /**
  * 
  * get some odds out, and structure them into something that can be printed to google sheets
- * 1. three way
- * 2. over/under
- * 3. Asian Handicap (1.5) spread
- * 
- * games is an array of objects
- * each object is a game, which team information
- * odds is just one event with many odds from many bookkeepers
  */
-const massageData = (data) => {
-  let massagedData = [
-    ['Bookmaker'],
+const returnFormattedOdds = (data) => {
+  let moneylines = [
+    ['Bookmaker', 'Moneyline'],
     ['Visitor'],
     ['Home']
   ]
+  let threeWay = [
+    ['Bookmaker', '3 Way'],
+    ['Visitor'],
+    ['Draw'],
+    ['Home']
+  ]
+
+  moneylines[1].push(data.response[0].game.teams.away.name);
+  moneylines[2].push(data.response[0].game.teams.home.name);
+
+  threeWay[1].push(data.response[0].game.teams.away.name);
+  threeWay[2].push('---');
+  threeWay[3].push(data.response[0].game.teams.home.name);
 
   data.response[0].bookmakers.forEach(bookmaker => {
-    massagedData[0].push(bookmaker.name);
+    moneylines[0].push(bookmaker.name);
+    threeWay[0].push(bookmaker.name);
     bookmaker.bets.forEach(bet => {
       if (bet.name === 'Home/Away') {
-        massagedData[1].push(bet.value[1].odd)
-        massagedData[2].push(bet.value[0].odd)
+        moneylines[1].push(bet.value[1].odd)
+        moneylines[2].push(bet.value[0].odd)
+      } else if (bet.name === '3Way Result') {
+        threeWay[1].push(bet.value[2].odd)
+        threeWay[2].push(bet.value[1].odd)
+        threeWay[3].push(bet.value[0].odd)
       }
     });
-    // console.log(bookmaker.bets[0].name);
   });
-  return massagedData;
+  const spreadsheetData = [];
+  spreadsheetData.push({range: 'new!A1', values: moneylines});
+  spreadsheetData.push({range: 'new!A5', values: threeWay});
+
+  
+  
+
+  // let range = 'new!A1';
+  // let values = massagedData;
+  // let resource = {
+  //   values,
+  // };
+  // let valueInputOption = 'RAW';
+
+  // let request = {
+  //   spreadsheetId,
+  //   range,
+  //   valueInputOption,
+  //   resource,
+  // }
+
+  // return request;
+  return spreadsheetData;
 };
 
-// massageData(odds);
 
 /**
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
 module.exports = (auth) => {
-  let range = 'new!A1';
-  let values = massageData(odds);
-  let resource = {
-    values,
-  };
+  let data = returnFormattedOdds(odds);
   let valueInputOption = 'RAW';
-
-  let request = {
-    spreadsheetId,
-    range,
+  let resource = {
+    data,
     valueInputOption,
-    resource,
   }
 
   const sheets = google.sheets({version: 'v4', auth});
-  try {
-    sheets.spreadsheets.values.update(request);
-  } catch (error) {
-    console.log(error);
-  }
+    // sheets.spreadsheets.values.update(request);
+    // sheets.spreadsheets.values.update(returnFormattedOdds(odds));
+    sheets.spreadsheets.values.batchUpdate({
+      spreadsheetId,
+      resource,
+    }, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('%d cells updated. ', result.totatUpdatedCells);
+      }
+    });
 }
