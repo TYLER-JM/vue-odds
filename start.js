@@ -39,7 +39,6 @@ endTransmission = async function() {
 
   let data = await _.api();
   let formattedData = _.formatData(data, selections);
-  console.log('will write: ', formattedData);
   _.writeToSheet(_.returnAuth(), formattedData);
   rl.close()
 }
