@@ -7,9 +7,9 @@ const rl = readline.createInterface({
 });
 
 const selections = {
+  league: null,
+  game: null,
   type: null,
-  total: null,
-  spread: null,
 };
 
 /** Possible options existing in the odds data returned from API
@@ -17,9 +17,9 @@ const selections = {
  * 'Asian Handicap'
  */
 const options = {
-  '1': 'h2h',
-  '2': 'totals',
-  '3': 'spreads', 
+  '1': 'Moneyline',
+  '2': 'Total',
+  '3': 'Spread', 
 };
 
 getValue = function(value) {
@@ -36,12 +36,14 @@ endTransmission = async function() {
   // call _.formatData to return the data to write
   // call _.write to write to the spreadsheet
 
-  let data = await _.api();
+  // let data = await _.api();
+  let data = _.api.tempTotalOdds[0];
   let formattedData = _.formatData(data, selections);
   _.writeToSheet(_.returnAuth(), formattedData);
   rl.close()
 }
 
+// TODO: first we need to allow selection of a sport, then a game
 rl.question("Select a Bet Type (1,2, 3, or 4):\n 1. Moneyline\n 2. Total\n 3. Spread\n", (answer) => {
   selections.type = options[answer];
     endTransmission();    
