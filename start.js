@@ -17,10 +17,9 @@ const selections = {
  * 'Asian Handicap'
  */
 const options = {
-  '1': '3Way Result',
-  '2': 'Home/Away', // Moneyline
-  '3': 'Over/Under', //Total
-  '4': 'Asian Handicap', //Spread
+  '1': 'h2h',
+  '2': 'totals',
+  '3': 'spreads', 
 };
 
 getValue = function(value) {
@@ -43,14 +42,7 @@ endTransmission = async function() {
   rl.close()
 }
 
-rl.question("Select a Bet Type (1,2, 3, or 4):\n 1. 3-way\n 2. Moneyline\n 3. Total\n 4. Spread\n", (answer) => {
+rl.question("Select a Bet Type (1,2, 3, or 4):\n 1. Moneyline\n 2. Total\n 3. Spread\n", (answer) => {
   selections.type = options[answer];
-  if (answer == 3) {
-    getValue('total');
-  } else if (answer == 4) {
-    getValue('spread');
-  } else {
-    endTransmission();
-  }
-    
+    endTransmission();    
 })
