@@ -12,15 +12,17 @@ const selections = {
   type: null,
 };
 
-/** Possible options existing in the odds data returned from API
- * 'Handicap Result'
- * 'Asian Handicap'
- */
 const options = {
   '1': 'Moneyline',
   '2': 'Total',
   '3': 'Spread', 
 };
+const leagues = {
+  '1': 'icehockey_nhl',
+  '2': 'basketball_nba',
+  '3': 'americanfootball_nfl',
+  '4': 'baseball_mlb',
+}
 
 getValue = function(value) {
   rl.question(`Choose a ${value}  value:\n`, (answer) => {
