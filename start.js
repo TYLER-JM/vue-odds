@@ -37,7 +37,7 @@ endTransmission = async function() {
   // call _.write to write to the spreadsheet
 
   // let data = await _.api();
-  let data = _.api.tempTotalOdds[0];
+  let data = _.api.tempSpreadOdds[1];
   let formattedData = _.formatData(data, selections);
   _.writeToSheet(_.returnAuth(), formattedData);
   rl.close()
