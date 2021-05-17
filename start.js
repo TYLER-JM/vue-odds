@@ -9,13 +9,13 @@ const rl = readline.createInterface({
 const selections = {
   league: null,
   game: null,
-  type: null,
+  bet: null,
 };
 
 const options = {
-  '1': 'Moneyline',
-  '2': 'Total',
-  '3': 'Spread', 
+  '1': 'h2h',
+  '2': 'totals',
+  '3': 'spreads', 
 };
 const leagues = {
   '1': 'icehockey_nhl',
@@ -24,9 +24,22 @@ const leagues = {
   '4': 'baseball_mlb',
 }
 
-getValue = function(value) {
-  rl.question(`Choose a ${value}  value:\n`, (answer) => {
-    selections[value] = answer;
+// TODO: first we need to allow selection of a sport, then a game
+rl.question('Select a League (1, 2, 3, or 4):\n 1. NHL\n2. NBA\n3. NFL\n4. MLB\n', (answer) => {
+  selections.league = leagues[answer];
+    getBetSelection();    
+})
+
+getBetSelection = function() {
+  rl.question('Select a Bet Type (1,2, or 3):\n 1. Moneyline\n 2. Total\n 3. Spread\n', (answer) => {
+    selections.bet = options[answer];
+    getGameSelection();
+  });
+}
+
+getGameSelection = function() {
+  rl.question('hey', (answer) => {
+
     endTransmission();
   });
 }
@@ -44,9 +57,3 @@ endTransmission = async function() {
   _.writeToSheet(_.returnAuth(), formattedData);
   rl.close()
 }
-
-// TODO: first we need to allow selection of a sport, then a game
-rl.question("Select a Bet Type (1,2, 3, or 4):\n 1. Moneyline\n 2. Total\n 3. Spread\n", (answer) => {
-  selections.type = options[answer];
-    endTransmission();    
-})
