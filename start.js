@@ -36,12 +36,12 @@ getBetSelection = function() {
   rl.question('Select a Bet Type (1,2, or 3):\n 1. Moneyline\n 2. Total\n 3. Spread\n', (answer) => {
     selections.bet = options[answer];
 
-    // let wait = Promise.resolve(api.setTempEvents()); //this is where we will call the api
+    // let wait = Promise.resolve(api.setTempEvents());
     let wait = Promise.resolve(api.getOdds({
       sport: selections.sport,
       region: selections.region,
       mkt: selections.bet
-    })); //this is where we will call the api
+    }));
     wait.then(() => {
       getGameSelection(api.getEventList());
     })
@@ -55,7 +55,7 @@ getGameSelection = function(question) {
     endTransmission(answer);
   });
 }
-endTransmission = async function(index) {
+endTransmission = function(index) {
   console.log('retrieving and writing odds...', selections);
 
   // get api event 
