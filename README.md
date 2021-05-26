@@ -17,4 +17,6 @@
 
 2. run `node start.js` in the command line, and make selections based on the prompts
 
+the Api class (`lib/api.js`) has a method to print the data returned by the Api to a json file (`printToJSON()`). That file can then be used within the class using `setTempEvents()` to set the data that will be used, rather than calling the Api too frequently during development.
+
 
